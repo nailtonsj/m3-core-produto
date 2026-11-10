@@ -1,22 +1,77 @@
 // legado/produto.js · escrito em JavaScript, do jeito do Módulo 2
-function criarProduto(nome, precoCentavos, unidade, categoria) {
-  return { nome: nome, precoCentavos: precoCentavos, unidade: unidade, categoria: categoria };
+
+
+exports class produto {
+  nome: string;
+  precoCentavos: number;
+  unidade: string
+  categoria: string
+
+  constructor(nome: string, precoCentavos: number, unidade: string, categoria: string) {
+    this.nome = nome
+    this.precoCentavos = precoCentavos
+    this.unidade = unidade
+    this.categoria = categoria
+  }
+  precoEmReais(): string{
+    return "R$" + (this.precoCentavos / 100).toFixed(2);
+  }
+  precoPorQuantidade(quantidade: number): number{
+    if (quantidade <= 0) {
+      throw new Error("A quatidade deve ser maior que zero");
+    }
+    return this.precoCentavos * quantidade;
+  }
+  alterarproduto(nome: string, precoCentavos: number, unidade: string, categoria: string){
+    this.nome = nome;
+    this.precoCentavos = precoCentavos;
+    this.unidade = unidade;
+    this.categoria = categoria;
+  }
+  // opcional 
+  adicionarparametro(parametro: string, valor: string): void{
+    console.log(`Parâmetro ${parametro}: ${valor}`);
+  }
 }
 
-function precoEmReais(produto) {
-  return "R$ " + (produto.precoCentavos / 100).toFixed(2);
-}
+// use para testa a classe, caso queira. OBS: sim essa parte foi ia, estava com preguiça
+import { Produto } from "./Produto";
 
-function precoPorQuantidade(produto, quantidade) {
-  return produto.precoCentavos * quantidade;
-}
+const arroz = new Produto(
+    "Arroz 5 kg",
+    2490,
+    "un",
+    "mercearia"
+);
 
-const arroz = criarProduto("arroz 5 kg", 2490, "un", "mercearia");
-const banana = criarProduto("banana", "8,90", "kg", "hortifruti");
-const leite = criarProduto("leite 1 l", 539, "UN", "laticínios");
+const banana = new Produto(
+    "Banana",
+    890,
+    "kg",
+    "hortifruti"
+);
 
-console.log(precoEmReais(arroz));
-console.log(precoEmReais(banana));
-console.log(precoPorQuantidade(leite, 3), leite.unidade);
+const leite = new Produto(
+    "Leite 1 l",
+    539,
+    "un",
+    "laticínios"
+);
 
-module.exports = { criarProduto, precoEmReais, precoPorQuantidade };
+console.log(arroz.precoEmReais());
+console.log(banana.precoEmReais());
+
+console.log(
+    leite.precoPorQuantidade(3),
+    leite.unidade
+);
+
+// Alterando o produto
+arroz.alterarProduto(
+    "Arroz integral 5 kg",
+    2990,
+    "un",
+    "mercearia"
+);
+
+console.log(arroz);
