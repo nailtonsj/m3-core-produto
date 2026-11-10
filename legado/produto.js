@@ -1,6 +1,11 @@
 // legado/produto.js · escrito em JavaScript, do jeito do Módulo 2
 function criarProduto(nome, precoCentavos, unidade, categoria) {
-  return { nome: nome, precoCentavos: precoCentavos, unidade: unidade, categoria: categoria };
+  return {
+    nome: nome,
+    precoCentavos: precoCentavos,
+    unidade: unidade,
+    categoria: categoria,
+  };
 }
 
 function precoEmReais(produto) {
@@ -18,5 +23,5 @@ const leite = criarProduto("leite 1 l", 539, "UN", "laticínios");
 console.log(precoEmReais(arroz));
 console.log(precoEmReais(banana));
 console.log(precoPorQuantidade(leite, 3), leite.unidade);
-
+console.log(arroz);
 module.exports = { criarProduto, precoEmReais, precoPorQuantidade };
