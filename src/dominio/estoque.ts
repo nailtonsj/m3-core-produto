@@ -4,27 +4,40 @@ export interface ItemEstoque{
   quantidade: number;
 }
 
-export class Estoque{
-  itens: ItemEstoque[] = [];
+export interface EstoqueDoPedido {
+  disponivel(nome: string): number;
+  saida(nome: string, quantidade: number): boolean;
+}
 
-  posicao(nome:string): number{
+export class Estoque implements EstoqueDoPedido{
+  private itens: ItemEstoque[] = [];
+
+  private posicao(nome:string): number{
     return this.itens.findIndex(item => item.nome === nome);
   }
 
-  entrada(nome:string, quantidade:number): void{
+  entrada(nome:string, quantidade:number): boolean{
+    if (quantidade <= 0){
+      return false
+    }
     const i = this.posicao(nome);
     if (i === -1){
       this.itens.push({ nome: nome, quantidade: quantidade })
-
+      return true
     }
     else {
       this.itens[i].quantidade = this.itens[i].quantidade + quantidade;
+      return true
     }
   }
 
-  saida(nome:string, quantidade:number): void{
+  saida(nome:string, quantidade:number): boolean{
+    if (quantidade <= 0 || quantidade > this.disponivel(nome)){
+      return false
+    }
     const i = this.posicao(nome);
     this.itens[i].quantidade = this.itens[i].quantidade - quantidade;
+    return true
 }
 
   disponivel(nome:string): number{
