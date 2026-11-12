@@ -1,22 +1,30 @@
-
 import * as fs from "fs";
+import { Produto } from "./produto";
+
 export class Catalogo {
-  produtos: any[];
+  produtos: Produto[];
 
   constructor(caminho: string) {
     const texto = fs.readFileSync(caminho, "utf8");
-    this.produtos = JSON.parse(texto).dados;
+    const dados = JSON.parse(texto).dados;
+    this.produtos = dados.map((d: any) =>
+      new Produto(d.nome, d.preco_centavos, d.unidade, d.categoria)
+    );
   }
 
-  buscar(nome: string) {
-    for (let i = 0; i < this.produtos.length; i++) {
-      if (this.produtos[i].nome === nome) {
-        return this.produtos[i];
-      }
-    }
+  buscar(nome: string): Produto | undefined {
+    return this.produtos.find(p => p.nome === nome);
   }
 
   precoDe(nome: string): number {
-    return this.buscar(nome).preco_centavos;
+    const produto = this.buscar(nome);
+    if (produto === undefined) {
+      throw new Error("Produto não encontrado: " + nome);
+    }
+    return produto.precoCentavos;
+  }
+
+  quantidade(): number {
+    return this.produtos.length;
   }
 }
