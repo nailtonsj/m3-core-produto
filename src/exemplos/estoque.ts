@@ -20,11 +20,11 @@ import { ItemEstoque } from "../dominio/estoque";
 // console.log(estoque.disponivel("arroz 5 kg")); //estoque.disponivel("feijão 1 kg"));
 // console.log(estoque.itens);
 
+//ETAPA 3
+// const estoque = new Estoque();
+// estoque.entrada("arroz 5 kg", 10);
+// console.log(estoque.saida("arroz 5 kg", 3), estoque.disponivel("arroz 5 kg"));
+// console.log(estoque.saida("arroz 5 kg", 50), estoque.disponivel("arroz 5 kg"));
+// console.log(estoque.entrada("arroz 5 kg", -4), estoque.disponivel("arroz 5 kg"));
 
-const estoque = new Estoque();
-estoque.entrada("arroz 5 kg", 10);
-console.log(estoque.saida("arroz 5 kg", 3), estoque.disponivel("arroz 5 kg"));
-console.log(estoque.saida("arroz 5 kg", 50), estoque.disponivel("arroz 5 kg"));
-console.log(estoque.entrada("arroz 5 kg", -4), estoque.disponivel("arroz 5 kg"));
-
-console.log(estoque.entrada("arroz 5 kg", -4));
+// console.log(estoque.entrada("arroz 5 kg", -4));
