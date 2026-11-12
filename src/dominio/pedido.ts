@@ -1,10 +1,14 @@
 import { Produto } from "./produto";
+import { EstoqueDoPedido } from "./estoque";
 
 class ItemPedido{
-  produto: Produto;
-  quantidade: number;
+  readonly produto: Produto;
+  readonly quantidade: number;
 
   constructor(produto:Produto, quantidade:number){
+    if (quantidade <= 0){
+      throw new Error(`Quantidade do item ${produto.nome} precisa ser maior que zero!`)
+    }
     this.produto = produto;
     this.quantidade = quantidade;
 
@@ -19,15 +23,31 @@ export class Pedido{
   // nomes:string[] = [];
   // precos:number[] = [];
   // quantidades:number[] = [];
-  itens: ItemPedido[] = [];
-  status: "aberto" | "finalizado" = "aberto";
+  private itens: ItemPedido[] = [];
+  private status: "aberto" | "finalizado" = "aberto";
+  private estoque: EstoqueDoPedido;
 
-  adicionar(produto:Produto, quantidade:number): void {
-    if (this.status !== "aberto"){
-    throw new Error(`Não foi possível adicionar o produto ${produto.nome}`)
+
+  constructor(estoque: EstoqueDoPedido) {
+    this.estoque = estoque;
+  }
+  adicionar(produto: Produto, quantidade: number): boolean {
+    if (this.status === "finalizado") {
+      return false;
+    }
+    if (this.estoque.disponivel(produto.nome) < quantidade) {
+      return false;
     }
     this.itens.push(new ItemPedido(produto, quantidade));
+    return true;
   }
+
+  // adicionar(produto:Produto, quantidade:number): void {
+  //   if (this.status !== "aberto"){
+  //   throw new Error(`Não foi possível adicionar o produto ${produto.nome}`)
+  //   }
+  //   this.itens.push(new ItemPedido(produto, quantidade));
+  // }
 
   total(): number {
     let soma = 0;
@@ -38,6 +58,12 @@ export class Pedido{
   }
 
   finalizar(){
+    for (let i = 0; i < this.itens.length; i++) {
+      let produtoARetirar = this.itens[i].produto.nome;
+      let quantidadeARetirar = this.itens[i].quantidade;
+      this.estoque.saida(produtoARetirar, quantidadeARetirar);
+      // if (this.estoque.disponivel(this.itens[i].produto.nome) <= 0){}
+    }
     this.status = "finalizado";
   }
 
@@ -45,6 +71,9 @@ export class Pedido{
     return `${this.itens.length} itens · total em centavos: ${this.total()} · status: ${this.status}` ;
   }
 }
+
+
+
 
 
 
