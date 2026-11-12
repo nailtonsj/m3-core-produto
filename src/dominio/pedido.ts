@@ -1,29 +1,46 @@
-// legado/pedido.js · o que o cliente está levando
-const nomes = [];
-const precos = [];
-const quantidades = [];
+class Precos{
+  nomes:string[] = [];
+  precos:number[] = [];
+  quantidades:number[] = [];
 
-function adicionar(nome, precoCentavos, quantidade) {
-  nomes.push(nome);
-  precos.push(precoCentavos);
-  quantidades.push(quantidade);
-}
-
-function total() {
-  let soma = 0;
-  for (let i = 0; i < nomes.length; i++) {
-    soma = soma + precos[i] * quantidades[i];
+  adicionar(nome:string, precoCentavos:number, quantidade:number): void {
+    this.nomes.push(nome);
+    this.precos.push(precoCentavos);
+    this.quantidades.push(quantidade);
   }
-  return soma;
+
+  total(): number {
+    let soma = 0;
+    for (let i = 0; i < this.nomes.length; i++) {
+      soma = soma + this.precos[i] * this.quantidades[i];
+    }
+    return soma;
+  }
+
+  resumo() {
+    return this.nomes.length + " itens · total em centavos: " + this.total();
+  }
 }
 
-function resumo() {
-  return nomes.length + " itens · total em centavos: " + total();
-}
 
-adicionar("arroz 5 kg", 2490, 1);
-adicionar(799, "feijão 1 kg", 2);
-adicionar("banana", 890, 2);
-console.log(resumo());
 
-module.exports = { adicionar, total, resumo };
+
+
+
+
+
+
+
+
+
+
+
+
+const listaUm = new Precos()
+
+listaUm.adicionar("arroz 5 kg", 2490, 1);
+listaUm.adicionar("feijão 1 kg", 799, 2);
+listaUm.adicionar("banana", 890, 2);
+console.log(listaUm.resumo());
+
+// module.exports = { adicionar, total, resumo };
