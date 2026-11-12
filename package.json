@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/nailtonsj/m3-core-produto#readme",
   "devDependencies": {
-    "@types/node": "^26.6.6"
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
   }
 }
