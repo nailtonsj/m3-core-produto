@@ -1,26 +1,22 @@
-// legado/catalogo.js · lê os produtos que "a API" mandou
-const fs = require("fs");
 
-function carregar(caminho) {
-  const texto = fs.readFileSync(caminho, "utf8");
-  return JSON.parse(texto).dados;
-}
+import * as fs from "fs";
+export class Catalogo {
+  produtos: any[];
 
-function buscar(produtos, nome) {
-  for (let i = 0; i < produtos.length; i++) {
-    if (produtos[i].nome === nome) {
-      return produtos[i];
+  constructor(caminho: string) {
+    const texto = fs.readFileSync(caminho, "utf8");
+    this.produtos = JSON.parse(texto).dados;
+  }
+
+  buscar(nome: string) {
+    for (let i = 0; i < this.produtos.length; i++) {
+      if (this.produtos[i].nome === nome) {
+        return this.produtos[i];
+      }
     }
   }
+
+  precoDe(nome: string): number {
+    return this.buscar(nome).preco_centavos;
+  }
 }
-
-function precoDe(produtos, nome) {
-  return buscar(produtos, nome).preco_centavos;
-}
-
-const produtos = carregar("dados/produtos.json");
-console.log(produtos.length + " produtos carregados");
-console.log(precoDe(produtos, "arroz 5 kg"));
-console.log(precoDe(produtos, "feijao 1 kg"));
-
-module.exports = { carregar, buscar, precoDe };
