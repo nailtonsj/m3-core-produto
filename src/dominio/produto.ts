@@ -1,77 +1,40 @@
 // legado/produto.js · escrito em JavaScript, do jeito do Módulo 2
 
+export class Produto {
+  readonly nome: string
+  readonly precoCentavos: number
+  readonly unidade: "kg"|"un"
+  readonly categoria: "mercearia"|"hortifruti"|"laticínios"
 
-exports class produto {
-  nome: string;
-  precoCentavos: number;
-  unidade: string
-  categoria: string
-
-  constructor(nome: string, precoCentavos: number, unidade: string, categoria: string) {
+  constructor(nome: string, precoCentavos: number, unidade: "kg"|"un", categoria: "mercearia"|"hortifruti"|"laticínios") {
+    if (precoCentavos < 0) {
+      throw new Error("Preço negativo: " + nome)
+    }
     this.nome = nome
     this.precoCentavos = precoCentavos
     this.unidade = unidade
     this.categoria = categoria
   }
-  precoEmReais(): string{
-    return "R$" + (this.precoCentavos / 100).toFixed(2);
+  precoEmReais(): string {
+    return "R$ " + (this.precoCentavos / 100).toFixed(2)
   }
-  precoPorQuantidade(quantidade: number): number{
+  precoPorQuantidade(quantidade: number): number {
     if (quantidade <= 0) {
-      throw new Error("A quatidade deve ser maior que zero");
+      throw new Error("A quantidade deve ser maior que zero")
     }
-    return this.precoCentavos * quantidade;
-  }
-  alterarproduto(nome: string, precoCentavos: number, unidade: string, categoria: string){
-    this.nome = nome;
-    this.precoCentavos = precoCentavos;
-    this.unidade = unidade;
-    this.categoria = categoria;
-  }
-  // opcional 
-  adicionarparametro(parametro: string, valor: string): void{
-    console.log(`Parâmetro ${parametro}: ${valor}`);
+    return this.precoCentavos * quantidade
   }
 }
 
-// use para testa a classe, caso queira. OBS: sim essa parte foi ia, estava com preguiça
-import { Produto } from "./Produto";
+// use para testa
+import { Produto } from "../dominio/produto"
 
-const arroz = new Produto(
-    "Arroz 5 kg",
-    2490,
-    "un",
-    "mercearia"
-);
+const arroz = new Produto("arroz 5 kg", 2490, "un", "mercearia")
+console.log(arroz.precoEmReais())
 
-const banana = new Produto(
-    "Banana",
-    890,
-    "kg",
-    "hortifruti"
-);
-
-const leite = new Produto(
-    "Leite 1 l",
-    539,
-    "un",
-    "laticínios"
-);
-
-console.log(arroz.precoEmReais());
-console.log(banana.precoEmReais());
-
-console.log(
-    leite.precoPorQuantidade(3),
-    leite.unidade
-);
-
-// Alterando o produto
-arroz.alterarProduto(
-    "Arroz integral 5 kg",
-    2990,
-    "un",
-    "mercearia"
-);
-
-console.log(arroz);
+try {
+  const errado = new Produto("feijão 1 kg", -799, "un", "mercearia")
+  console.log(errado.precoEmReais())
+} catch (erro) {
+  console.log("Não criou. " + erro)
+}
