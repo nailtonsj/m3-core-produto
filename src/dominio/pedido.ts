@@ -1,4 +1,4 @@
-class Precos{
+export class Pedido{
   nomes:string[] = [];
   precos:number[] = [];
   quantidades:number[] = [];
@@ -17,7 +17,7 @@ class Precos{
     return soma;
   }
 
-  resumo() {
+  resumo(): string {
     return this.nomes.length + " itens · total em centavos: " + this.total();
   }
 }
@@ -26,21 +26,5 @@ class Precos{
 
 
 
-
-
-
-
-
-
-
-
-
-
-const listaUm = new Precos()
-
-listaUm.adicionar("arroz 5 kg", 2490, 1);
-listaUm.adicionar("feijão 1 kg", 799, 2);
-listaUm.adicionar("banana", 890, 2);
-console.log(listaUm.resumo());
 
 // module.exports = { adicionar, total, resumo };
